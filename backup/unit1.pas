@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, Menus,
-  StdCtrls, Windows, Types;
+  StdCtrls, Windows, Types, Math;
 
 type
 
@@ -41,6 +41,7 @@ type
     procedure MenuItem1Click(Sender: TObject);
     procedure MenuItem3Click(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
+    procedure MenuItem5Click(Sender: TObject);
     procedure MenuItem6Click(Sender: TObject);
     procedure MenuItem8Click(Sender: TObject);
   private
@@ -49,12 +50,48 @@ type
 
   end;
 
+// Declaração da função RGBtoHSV
+procedure RGBtoHSV(r, g, b: Single; var h, s, v: Single);
+
 var
   Form1: TForm1;
 
 implementation
 
 {$R *.lfm}
+
+// Implementação da função RGBtoHSV
+procedure RGBtoHSV(r, g, b: Single; var h, s, v: Single);
+var
+  min_val, max_val, delta: Single;
+begin
+  // Usando Min e Max da unidade Math
+  min_val := Min(Min(r, g), b);
+  max_val := Max(Max(r, g), b);
+  v := max_val;
+  delta := max_val - min_val;
+
+  if max_val <> 0 then
+    s := delta / max_val
+  else
+  begin
+    s := 0;
+    h := -1;
+    Exit;
+  end;
+
+  if r = max_val then
+    h := (g - b) / delta
+  else if g = max_val then
+    h := 2 + (b - r) / delta
+  else
+    h := 4 + (r - g) / delta;
+
+  h := h * 60;
+  if h < 0 then
+    h := h + 360;
+end;
+
 
 { TForm1 }
 
@@ -67,16 +104,16 @@ procedure TForm1.MenuItem1Click(Sender: TObject);
 begin
 
 end;
-
-function copiarImagem1NaImagem2();
-var
-  x,y : integer;
-  E,S : array[0...Image1.Width-1, 0...Image1.Height-1) of byte;
-begin
-  for x:=0 to Image1.Width-1 do
-      for y:=0 to Image1.Height-1 do
-          S[x,y] = E[x,y];
-end;
+//
+//function copiarImagem1NaImagem2();
+//var
+//  x,y : integer;
+//  E,S : array[0...Image1.Width-1, 0...Image1.Height-1) of byte;
+//begin
+//  for x:=0 to Image1.Width-1 do
+//      for y:=0 to Image1.Height-1 do
+//          S[x,y] = E[x,y];
+//end;
 
 procedure TForm1.MenuItem3Click(Sender: TObject);    //abrir imagem de entrada
 begin
@@ -92,6 +129,26 @@ begin
     if(SaveDialog1.Execute)
       then
         Image2.Picture.SaveToFile(SaveDialog1.FileName);
+end;
+
+procedure TForm1.MenuItem5Click(Sender: TObject);
+begin
+var
+  r, g, b: Single;
+  h, s, v: Single;
+begin
+  // Exemplo de uso - você pode substituir estes valores pelos seus
+  r := 0.5;  // Vermelho (de 0.0 até 1.0)
+  g := 0.3;  // Verde (de 0.0 até 1.0)
+  b := 0.9;  // Azul (de 0.0 até 1.0)
+
+  // Chama a função de conversão
+  RGBtoHSV(r, g, b, h, s, v);
+
+  // Exibe os resultados
+  ShowMessage('RGB (' + FloatToStr(r) + ', ' + FloatToStr(g) + ', ' + FloatToStr(b) + ') ' +
+              'convertido para HSV (' + FloatToStr(h) + '°, ' + FloatToStr(s*100) + '%, ' + FloatToStr(v*100) + '%)');
+
 end;
 
 procedure TForm1.MenuItem6Click(Sender: TObject);    //sair
