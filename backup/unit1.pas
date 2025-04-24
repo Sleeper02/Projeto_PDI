@@ -16,9 +16,6 @@ type
     Button1: TButton;
     Image1: TImage;
     Image2: TImage;
-    Image3: TImage;
-    Image4: TImage;
-    Image5: TImage;
     Label1: TLabel;
     MainMenu1: TMainMenu;
     MenuItem1: TMenuItem;
@@ -71,6 +68,16 @@ begin
 
 end;
 
+function copiarImagem1NaImagem2();
+var
+  x,y : integer;
+  E,S : array[0...Image1.Width-1, 0...Image1.Height-1) of byte;
+begin
+  for x:=0 to Image1.Width-1 do
+      for y:=0 to Image1.Height-1 do
+          S[x,y] = E[x,y];
+end;
+
 procedure TForm1.MenuItem3Click(Sender: TObject);    //abrir imagem de entrada
 begin
   if(OpenDialog1.Execute)
@@ -96,12 +103,14 @@ procedure TForm1.MenuItem8Click(Sender: TObject);  //criar 10% de ruído
 var
   i, x, y : integer;
   cor : Tcolor;
+  aux : TPicture;
 begin
-  Image2.Picture := Image1.Pictur;
-  for i:=0 to round(0.1*(Image1.Width*Image1.Height)) do
+  aux := Image1.Picture;
+  Image2.Picture := Image1.Picture;
+  for i:=0 to round(0.1*(Image2.Width*Image2.Height)) do
           begin
-             x:= random(Image1.Width-1);
-             y:= random(Image1.Height-1);
+             x:= random(Image2.Width-1);
+             y:= random(Image2.Height-1);
              cor:= random(255);
              Image2.Canvas.Pixels[x,y] := RGB(cor,cor,cor);
           end;
