@@ -1,7 +1,7 @@
 object Form1: TForm1
-  Left = 172
+  Left = 280
   Height = 892
-  Top = 155
+  Top = 354
   Width = 1469
   Caption = 'Form1'
   ClientHeight = 892
@@ -71,12 +71,15 @@ object Form1: TForm1
       OnClick = MenuItem1Click
       object MenuItem3: TMenuItem
         Caption = 'Abrir Imagem'
+        OnClick = MenuItem3Click
       end
       object MenuItem4: TMenuItem
         Caption = 'Salvar Imagem'
+        OnClick = MenuItem4Click
       end
       object MenuItem6: TMenuItem
         Caption = 'Sair'
+        OnClick = MenuItem6Click
       end
     end
     object MenuItem2: TMenuItem
@@ -85,9 +88,38 @@ object Form1: TForm1
         Caption = 'HSI --> RGB'
       end
       object MenuItem7: TMenuItem
-        Caption = 'RGB --> HSI'
+        Caption = 'RGB --> HSV'
       end
       object MenuItem8: TMenuItem
+        Caption = 'Criar ruído'
+        OnClick = MenuItem8Click
+      end
+      object MenuItem9: TMenuItem
+        Caption = 'Inverter imagem'
+      end
+      object MenuItem12: TMenuItem
+        Caption = 'Equalização'
+      end
+      object MenuItem10: TMenuItem
+        Caption = 'Filtro Média'
+      end
+      object MenuItem11: TMenuItem
+        Caption = 'Filtro Mediana'
+      end
+      object MenuItem13: TMenuItem
+        Caption = 'Binarização'
+      end
+      object MenuItem14: TMenuItem
+        Caption = 'Laplaciano N4'
+      end
+      object MenuItem15: TMenuItem
+        Caption = 'Detectar Bordas (Sobel)'
+      end
+      object MenuItem16: TMenuItem
+        Caption = 'Compressão'
+      end
+      object MenuItem17: TMenuItem
+        Caption = 'Limiarização'
       end
     end
   end
