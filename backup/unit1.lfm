@@ -8,6 +8,7 @@ object Form1: TForm1
   ClientWidth = 1469
   DesignTimePPI = 120
   Menu = MainMenu1
+  OnCreate = FormCreate
   LCLVersion = '3.8.0.0'
   object Image1: TImage
     Left = 80
@@ -71,6 +72,7 @@ object Form1: TForm1
       end
       object MenuItem7: TMenuItem
         Caption = 'RGB --> HSV'
+        OnClick = MenuItem7Click
       end
       object MenuItem8: TMenuItem
         Caption = 'Criar ruído'
@@ -78,9 +80,15 @@ object Form1: TForm1
       end
       object MenuItem9: TMenuItem
         Caption = 'Inverter imagem'
+        OnClick = MenuItem9Click
+        object MenuItem18: TMenuItem
+          Caption = 'P&&B'
+          OnClick = MenuItem18Click
+        end
       end
       object MenuItem12: TMenuItem
         Caption = 'Equalização'
+        OnClick = MenuItem12Click
       end
       object MenuItem10: TMenuItem
         Caption = 'Filtro Média'
@@ -102,6 +110,9 @@ object Form1: TForm1
       end
       object MenuItem17: TMenuItem
         Caption = 'Limiarização'
+      end
+      object MenuItem19: TMenuItem
+        Caption = 'Criar ruído aleatório'
       end
     end
   end
