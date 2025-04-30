@@ -99,7 +99,7 @@ begin
        begin
          filtro := (1/9)*E[x-1,y-1] + (1/9)*E[x,y-1] + (1/9)*E[x+1,y-1]
                + (1/9)*E[x-1,y] + (1/9)*E[x,y] + (1/9)*E[x+1,y]
-               + (1/9)*E[x-1,y+1] + (1/9)*E[x,y+1] + (1/9)*E[x+1,y+1];
+               + (1/9)*E[x-1,y+1] + (1/9)*E[x,y+1] + (1/9)*E[x+1,y+1];   //????
          S[x,y] := filtro;
        end;
 
@@ -231,7 +231,7 @@ begin
    Readln(a);
    Writeln ('\nDigite o maior valor do intervalo: ');
    Readln(b);
-   Writeln ('\nDigite o valor que deseja aplicar no intervalo escolhido: ');  //a função T será um valor fixo
+   Writeln ('\nDigite o valor que deseja aplicar no intervalo escolhido: ');  //a função T será um valor fixo escolhido pelo usuário
    Readln(c);
 
    for y:=0 to Image1.Height-1 do
@@ -393,7 +393,7 @@ begin
           begin
              x:= random(Image2.Width-1);
              y:= random(Image2.Height-1);
-             if(i%2 = 0) then
+             if(i mod 2 = 0) then     //ruido sal e pimenta
                     ruido := 0
              else
                ruido := 255;
