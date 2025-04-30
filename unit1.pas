@@ -17,12 +17,16 @@ type
     Edit1: TEdit;
     Edit2: TEdit;
     Edit3: TEdit;
+    Edit4: TEdit;
+    Edit5: TEdit;
     Image1: TImage;
     Image2: TImage;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
     MainMenu1: TMainMenu;
     aaa: TMemo;
     MenuItem1: TMenuItem;
@@ -49,6 +53,8 @@ type
     procedure Edit2Change(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure aaaChange(Sender: TObject);
+    procedure MenuItem14Click(Sender: TObject);
+    procedure MenuItem16Click(Sender: TObject);
     procedure MenuItem1Click(Sender: TObject);
     procedure MenuItem3Click(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
@@ -171,6 +177,141 @@ begin
 
 end;
 
+procedure TForm1.MenuItem14Click(Sender: TObject);
+  var
+    coluna, linha: Integer;
+    corAtual, corVizinho: TColor;
+    rAtual, gAtual, bAtual: Byte;
+    somaR, somaG, somaB: Integer;
+    r, g, b: Integer;
+  begin
+    if Image1.Picture.Bitmap.Empty then
+      Exit;
+
+    // Prepara Image2 com o mesmo tamanho da Image1
+    Image2.Picture.Bitmap.Width := Image1.Picture.Bitmap.Width;
+    Image2.Picture.Bitmap.Height := Image1.Picture.Bitmap.Height;
+
+    // Limpa Image2 com preto
+    Image2.Picture.Bitmap.Canvas.Brush.Color := clBlack;
+    Image2.Picture.Bitmap.Canvas.FillRect(0, 0, Image2.Picture.Bitmap.Width, Image2.Picture.Bitmap.Height);
+
+    // Aplica o filtro Laplaciano
+    for coluna := 0 to Image1.Picture.Bitmap.Width - 1 do
+    begin
+      for linha := 0 to Image1.Picture.Bitmap.Height - 1 do
+      begin
+        // Obtém a cor do pixel atual
+        corAtual := Image1.Picture.Bitmap.Canvas.Pixels[coluna, linha];
+        rAtual := Red(corAtual);
+        gAtual := Green(corAtual);
+        bAtual := Blue(corAtual);
+
+        // Inicializa os somatórios
+        somaR := 4 * rAtual;
+        somaG := 4 * gAtual;
+        somaB := 4 * bAtual;
+
+        // Vizinho esquerdo
+        if coluna > 0 then
+        begin
+          corVizinho := Image1.Picture.Bitmap.Canvas.Pixels[coluna - 1, linha];
+          somaR := somaR - Red(corVizinho);
+          somaG := somaG - Green(corVizinho);
+          somaB := somaB - Blue(corVizinho);
+        end;
+
+        // Vizinho direito
+        if coluna < Image1.Picture.Bitmap.Width - 1 then
+        begin
+          corVizinho := Image1.Picture.Bitmap.Canvas.Pixels[coluna + 1, linha];
+          somaR := somaR - Red(corVizinho);
+          somaG := somaG - Green(corVizinho);
+          somaB := somaB - Blue(corVizinho);
+        end;
+
+        // Vizinho superior
+        if linha > 0 then
+        begin
+          corVizinho := Image1.Picture.Bitmap.Canvas.Pixels[coluna, linha - 1];
+          somaR := somaR - Red(corVizinho);
+          somaG := somaG - Green(corVizinho);
+          somaB := somaB - Blue(corVizinho);
+        end;
+
+        // Vizinho inferior
+        if linha < Image1.Picture.Bitmap.Height - 1 then
+        begin
+          corVizinho := Image1.Picture.Bitmap.Canvas.Pixels[coluna, linha + 1];
+          somaR := somaR - Red(corVizinho);
+          somaG := somaG - Green(corVizinho);
+          somaB := somaB - Blue(corVizinho);
+        end;
+
+        // Calcula os valores finais com clamp
+        r := EnsureRange(Abs(somaR), 0, 255);
+        g := EnsureRange(Abs(somaG), 0, 255);
+        b := EnsureRange(Abs(somaB), 0, 255);
+
+        // Define o novo pixel na Image2
+        Image2.Picture.Bitmap.Canvas.Pixels[coluna, linha] := RGBToColor(r, g, b);
+      end;
+    end;
+    Image2.Refresh;
+  end;
+
+procedure TForm1.MenuItem16Click(Sender: TObject);
+  var
+    coluna, linha: Integer;
+    corOriginal: TColor;
+    R, G, B: Byte;
+    novoR, novoG, novoB: Integer;
+    fatorC, gama: Double;
+    valorNormalizado: Double;
+  begin
+    if Image1.Picture.Bitmap.Empty then
+      Exit;
+
+    // Obter valores de c e γ dos edits
+    fatorC := StrToFloat(Edit4.Text);
+    gama := StrToFloat(Edit5.Text);
+
+    // Preparar Image2
+    Image2.Picture.Bitmap.Width := Image1.Picture.Bitmap.Width;
+    Image2.Picture.Bitmap.Height := Image1.Picture.Bitmap.Height;
+
+    // Processar cada pixel
+    for coluna := 0 to Image1.Picture.Bitmap.Width - 1 do
+    begin
+      for linha := 0 to Image1.Picture.Bitmap.Height - 1 do
+      begin
+        // Obter cor original
+        corOriginal := Image1.Picture.Bitmap.Canvas.Pixels[coluna, linha];
+        R := Red(corOriginal);
+        G := Green(corOriginal);
+        B := Blue(corOriginal);
+
+        // Aplicar fórmula para cada canal
+        valorNormalizado := R / 255;
+        novoR := Round(fatorC * Power(valorNormalizado, gama) * 255);
+        novoR := EnsureRange(novoR, 0, 255);
+
+        valorNormalizado := G / 255;
+        novoG := Round(fatorC * Power(valorNormalizado, gama) * 255);
+        novoG := EnsureRange(novoG, 0, 255);
+
+        valorNormalizado := B / 255;
+        novoB := Round(fatorC * Power(valorNormalizado, gama) * 255);
+        novoB := EnsureRange(novoB, 0, 255);
+
+        // Atualizar pixel na imagem de saída
+        Image2.Picture.Bitmap.Canvas.Pixels[coluna, linha] := RGBToColor(novoR, novoG, novoB);
+      end;
+    end;
+    Image2.Refresh;
+    ShowMessage('Compressão aplicada!');
+  end;
+
 procedure TForm1.MenuItem1Click(Sender: TObject);
 begin
 
@@ -241,7 +382,6 @@ begin
 end;
 
 procedure TForm1.MenuItem8Click(Sender: TObject);
-
 begin
 
 end;

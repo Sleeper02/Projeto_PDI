@@ -81,6 +81,47 @@ object Form1: TForm1
     Width = 34
     Caption = 'B ou V'
   end
+  object aaa: TMemo
+    Left = 888
+    Height = 90
+    Top = 456
+    Width = 150
+    Lines.Strings = (
+      'H 0 -> 360 | R 0 -> 255'
+      'S  0 -> 100 | G 0 -> 255'
+      'V  0 -> 100 | B 0 -> 255'
+    )
+    TabOrder = 4
+    OnChange = aaaChange
+  end
+  object Edit4: TEdit
+    Left = 584
+    Height = 23
+    Top = 456
+    Width = 80
+    TabOrder = 5
+  end
+  object Edit5: TEdit
+    Left = 584
+    Height = 23
+    Top = 488
+    Width = 80
+    TabOrder = 6
+  end
+  object Label5: TLabel
+    Left = 528
+    Height = 15
+    Top = 456
+    Width = 39
+    Caption = 'Fator c:'
+  end
+  object Label6: TLabel
+    Left = 528
+    Height = 15
+    Top = 488
+    Width = 43
+    Caption = 'Gama γ:'
+  end
   object OpenDialog1: TOpenDialog
     Left = 1002
     Top = 122
@@ -139,12 +180,14 @@ object Form1: TForm1
       end
       object MenuItem14: TMenuItem
         Caption = 'Laplaciano N4'
+        OnClick = MenuItem14Click
       end
       object MenuItem15: TMenuItem
         Caption = 'Detectar Bordas (Sobel)'
       end
       object MenuItem16: TMenuItem
         Caption = 'Compressão'
+        OnClick = MenuItem16Click
       end
       object MenuItem17: TMenuItem
         Caption = 'Limiarização'

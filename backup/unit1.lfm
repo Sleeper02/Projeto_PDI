@@ -82,9 +82,9 @@ object Form1: TForm1
     Caption = 'B ou V'
   end
   object aaa: TMemo
-    Left = 899
+    Left = 888
     Height = 90
-    Top = 462
+    Top = 456
     Width = 150
     Lines.Strings = (
       'H 0 -> 360 | R 0 -> 255'
@@ -152,6 +152,7 @@ object Form1: TForm1
       end
       object MenuItem14: TMenuItem
         Caption = 'Laplaciano N4'
+        OnClick = MenuItem14Click
       end
       object MenuItem15: TMenuItem
         Caption = 'Detectar Bordas (Sobel)'
