@@ -38,6 +38,81 @@ object Form1: TForm1
     Width = 103
     Caption = 'Copiar Imagem'
   end
+  object Edit6: TEdit
+    Left = 256
+    Height = 28
+    Top = 592
+    Width = 100
+    TabOrder = 1
+  end
+  object Edit7: TEdit
+    Left = 256
+    Height = 28
+    Top = 632
+    Width = 100
+    TabOrder = 2
+  end
+  object Edit8: TEdit
+    Left = 256
+    Height = 28
+    Top = 672
+    Width = 100
+    TabOrder = 3
+  end
+  object Label7: TLabel
+    Left = 64
+    Height = 20
+    Top = 592
+    Width = 167
+    Caption = 'Menor valor do intervalo:'
+    OnClick = Label7Click
+  end
+  object Label8: TLabel
+    Left = 264
+    Height = 20
+    Top = 552
+    Width = 84
+    Caption = 'Limiarização'
+  end
+  object Label9: TLabel
+    Left = 64
+    Height = 20
+    Top = 626
+    Width = 163
+    Caption = 'Maior valor do intervalo:'
+    OnClick = Label7Click
+  end
+  object Label10: TLabel
+    Left = 131
+    Height = 20
+    Top = 680
+    Width = 96
+    Caption = 'Valor (função):'
+    OnClick = Label7Click
+  end
+  object Label11: TLabel
+    Left = 472
+    Height = 20
+    Top = 552
+    Width = 77
+    Caption = 'Binarização'
+    OnClick = Label11Click
+  end
+  object Label12: TLabel
+    Left = 400
+    Height = 20
+    Top = 592
+    Width = 44
+    Caption = 'Limiar:'
+    OnClick = Label7Click
+  end
+  object Edit9: TEdit
+    Left = 464
+    Height = 28
+    Top = 592
+    Width = 100
+    TabOrder = 4
+  end
   object OpenDialog1: TOpenDialog
     Left = 1253
     Top = 152
@@ -68,7 +143,7 @@ object Form1: TForm1
     object MenuItem2: TMenuItem
       Caption = 'Operações'
       object MenuItem5: TMenuItem
-        Caption = 'HSI --> RGB'
+        Caption = 'HSV --> RGB'
       end
       object MenuItem7: TMenuItem
         Caption = 'RGB --> HSV'
@@ -114,6 +189,10 @@ object Form1: TForm1
       object MenuItem17: TMenuItem
         Caption = 'Limiarização'
         OnClick = MenuItem17Click
+      end
+      object MenuItem19: TMenuItem
+        Caption = 'DCT'
+        OnClick = MenuItem19Click
       end
     end
   end

@@ -14,9 +14,19 @@ type
 
   TForm1 = class(TForm)
     Button1: TButton;
+    Edit8: TEdit;
+    Edit6: TEdit;
+    Edit7: TEdit;
+    Edit9: TEdit;
     Image1: TImage;
     Image2: TImage;
     Label1: TLabel;
+    Label10: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+    Label8: TLabel;
+    Label7: TLabel;
+    Label9: TLabel;
     MainMenu1: TMainMenu;
     MenuItem1: TMenuItem;
     MenuItem10: TMenuItem;
@@ -28,6 +38,7 @@ type
     MenuItem16: TMenuItem;
     MenuItem17: TMenuItem;
     MenuItem18: TMenuItem;
+    MenuItem19: TMenuItem;
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
@@ -40,6 +51,8 @@ type
     SaveDialog1: TSaveDialog;
     procedure Button1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure Label11Click(Sender: TObject);
+    procedure Label7Click(Sender: TObject);
     procedure MenuItem10Click(Sender: TObject);
     procedure MenuItem12Click(Sender: TObject);
     procedure MenuItem13Click(Sender: TObject);
@@ -47,6 +60,7 @@ type
     procedure MenuItem17Click(Sender: TObject);
     //procedure MenuItem12Click(Sender: TObject);
     procedure MenuItem18Click(Sender: TObject);
+    procedure MenuItem19Click(Sender: TObject);
     //procedure MenuItem19Click(Sender: TObject);
     procedure MenuItem1Click(Sender: TObject);
     procedure MenuItem3Click(Sender: TObject);
@@ -82,6 +96,16 @@ begin
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
+begin
+
+end;
+
+procedure TForm1.Label11Click(Sender: TObject);
+begin
+
+end;
+
+procedure TForm1.Label7Click(Sender: TObject);
 begin
 
 end;
@@ -161,8 +185,7 @@ var                                                 //usuário escolhe um limiar
    x,y,a : integer;
 
 begin
-   Writeln ('\nDigite o limiar desejado: ');
-   Readln(a);
+   a := StrToInteger(Edit9.Text);
 
    for y:=0 to Image1.Height-1 do
          for x:=0 to Image1.Width-1 do
@@ -227,12 +250,9 @@ var                                                   //a função será aplicad
    x,y,a,b,c : integer;
 
 begin
-   Writeln ('\nDigite o menor valor do intervalo: ');
-   Readln(a);
-   Writeln ('\nDigite o maior valor do intervalo: ');
-   Readln(b);
-   Writeln ('\nDigite o valor que deseja aplicar no intervalo escolhido: ');  //a função T será um valor fixo escolhido pelo usuário
-   Readln(c);
+   a := StrToInteger(Edit6.Text);
+   b := StrToInteger(Edit7.Text);
+   c := StrToInteger(Edit8.Text);
 
    for y:=0 to Image1.Height-1 do
          for x:=0 to Image1.Width-1 do
@@ -311,6 +331,11 @@ begin
      for y:=0 to Image2.Height-1 do
          for x:=0 to Image2.Width-1 do
              Image2.Canvas.Pixels[x,y] := RGB(S[x,y],S[x,y],S[x,y]);
+end;
+
+procedure TForm1.MenuItem19Click(Sender: TObject);    //transformada discreta do cosseno
+begin
+
 end;
 
 //procedure TForm1.MenuItem19Click(Sender: TObject);      //inverter colorida
