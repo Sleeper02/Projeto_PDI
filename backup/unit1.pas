@@ -185,7 +185,7 @@ var                                                 //usuário escolhe um limiar
    x,y,a : integer;
 
 begin
-   a := StrToInteger(Edit9.Text);
+   a := StrToInt(Edit9.Text);
 
    for y:=0 to Image1.Height-1 do
          for x:=0 to Image1.Width-1 do
@@ -250,9 +250,9 @@ var                                                   //a função será aplicad
    x,y,a,b,c : integer;
 
 begin
-   a := StrToFloat(Edit6.Text);
-   b := StrToFloat(Edit7.Text);
-   c := StrToFloat(Edit8.Text);
+   a := StrToInt(Edit6.Text);
+   b := StrToInt(Edit7.Text);
+   c := StrToInt(Edit8.Text);
 
    for y:=0 to Image1.Height-1 do
          for x:=0 to Image1.Width-1 do
