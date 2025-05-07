@@ -1,41 +1,40 @@
 object Form1: TForm1
   Left = 295
-  Height = 892
+  Height = 714
   Top = 157
-  Width = 1469
+  Width = 1175
   Caption = 'Form1'
-  ClientHeight = 892
-  ClientWidth = 1469
-  DesignTimePPI = 120
+  ClientHeight = 714
+  ClientWidth = 1175
   Menu = MainMenu1
   OnCreate = FormCreate
   LCLVersion = '3.8.0.0'
   object Image1: TImage
-    Left = 80
-    Height = 400
-    Top = 96
-    Width = 400
+    Left = 64
+    Height = 320
+    Top = 77
+    Width = 320
   end
   object Image2: TImage
-    Left = 688
-    Height = 400
-    Top = 96
-    Width = 400
+    Left = 550
+    Height = 320
+    Top = 77
+    Width = 320
   end
   object Button1: TButton
-    Left = 536
-    Height = 31
-    Top = 280
-    Width = 96
+    Left = 429
+    Height = 25
+    Top = 224
+    Width = 77
     Caption = '<--'
     TabOrder = 0
     OnClick = Button1Click
   end
   object Label1: TLabel
-    Left = 536
-    Height = 20
-    Top = 256
-    Width = 103
+    Left = 429
+    Height = 15
+    Top = 205
+    Width = 82
     Caption = 'Copiar Imagem'
   end
   object Edit6: TEdit
@@ -112,18 +111,102 @@ object Form1: TForm1
     Top = 592
     Width = 100
     TabOrder = 4
+  object Edit1: TEdit
+    Left = 790
+    Height = 23
+    Top = 456
+    Width = 80
+    TabOrder = 1
+    OnChange = Edit1Change
+  end
+  object Edit2: TEdit
+    Left = 790
+    Height = 23
+    Top = 488
+    Width = 80
+    TabOrder = 2
+    OnChange = Edit2Change
+  end
+  object Edit3: TEdit
+    Left = 790
+    Height = 23
+    Top = 520
+    Width = 80
+    TabOrder = 3
+  end
+  object Label2: TLabel
+    Left = 736
+    Height = 15
+    Top = 456
+    Width = 36
+    Caption = 'R ou H'
+  end
+  object Label3: TLabel
+    Left = 736
+    Height = 15
+    Top = 488
+    Width = 34
+    Caption = 'G ou S'
+  end
+  object Label4: TLabel
+    Left = 736
+    Height = 15
+    Top = 520
+    Width = 34
+    Caption = 'B ou V'
+  end
+  object aaa: TMemo
+    Left = 888
+    Height = 90
+    Top = 456
+    Width = 150
+    Lines.Strings = (
+      'H 0 -> 360 | R 0 -> 255'
+      'S  0 -> 100 | G 0 -> 255'
+      'V  0 -> 100 | B 0 -> 255'
+    )
+    TabOrder = 4
+    OnChange = aaaChange
+  end
+  object Edit4: TEdit
+    Left = 584
+    Height = 23
+    Top = 456
+    Width = 80
+    TabOrder = 5
+  end
+  object Edit5: TEdit
+    Left = 584
+    Height = 23
+    Top = 488
+    Width = 80
+    TabOrder = 6
+  end
+  object Label5: TLabel
+    Left = 528
+    Height = 15
+    Top = 456
+    Width = 39
+    Caption = 'Fator c:'
+  end
+  object Label6: TLabel
+    Left = 528
+    Height = 15
+    Top = 488
+    Width = 43
+    Caption = 'Gama γ:'
   end
   object OpenDialog1: TOpenDialog
-    Left = 1253
-    Top = 152
+    Left = 1002
+    Top = 122
   end
   object SaveDialog1: TSaveDialog
-    Left = 1253
-    Top = 94
+    Left = 1002
+    Top = 75
   end
   object MainMenu1: TMainMenu
-    Left = 1253
-    Top = 232
+    Left = 1002
+    Top = 186
     object MenuItem1: TMenuItem
       Caption = 'Arquivo'
       OnClick = MenuItem1Click
@@ -144,6 +227,7 @@ object Form1: TForm1
       Caption = 'Operações'
       object MenuItem5: TMenuItem
         Caption = 'HSV --> RGB'
+        OnClick = MenuItem5Click
       end
       object MenuItem7: TMenuItem
         Caption = 'RGB --> HSV'
@@ -178,6 +262,7 @@ object Form1: TForm1
       end
       object MenuItem14: TMenuItem
         Caption = 'Laplaciano N4'
+        OnClick = MenuItem14Click
       end
       object MenuItem15: TMenuItem
         Caption = 'Detectar Bordas (Sobel)'
@@ -185,6 +270,7 @@ object Form1: TForm1
       end
       object MenuItem16: TMenuItem
         Caption = 'Compressão'
+        OnClick = MenuItem16Click
       end
       object MenuItem17: TMenuItem
         Caption = 'Limiarização'
