@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, Menus,
-  StdCtrls, Windows, Types;
+  StdCtrls, Windows, Types, Math;
 
 type
 
@@ -369,7 +369,7 @@ procedure TForm1.MenuItem3Click(Sender: TObject);    //abrir imagem de entrada
 var
    x,y : integer;
    cor : Tcolor;
-   R,G,B,cinza : byte;
+   R,G,B,cinza : integer;
 begin
   if(OpenDialog1.Execute)
       then
@@ -384,7 +384,8 @@ begin
                 G := getGvalue(cor);
                 B := getBValue(cor);
                 cinza := round(0.299*R + 0.587*G + 0.144*B);
-                E[x,y] := cinza;   //se converto assim fica tudo branco
+                S[x,y] := cinza;   //se converto assim fica tudo branco
+                Image2.Canvas.Pixels[x,y] := S[x,y];
               end;
 end;
 
@@ -408,7 +409,7 @@ end;
 procedure TForm1.MenuItem8Click(Sender: TObject);  //criar 10% de ruído
 var
   i, x, y : integer;
-  ruido : byte;
+  ruido : integer;
 begin
   for y:=0 to Image1.Height-1 do
       for x:=0 to Image1.Width-1 do
