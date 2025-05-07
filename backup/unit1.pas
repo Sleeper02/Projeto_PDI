@@ -114,78 +114,61 @@ procedure TForm1.MenuItem10Click(Sender: TObject);  //filtro da média (N8)
 var
   x,y,filtro : integer;
 begin
-  for y:=0 to Image1.Height-1 do
-         for x:=0 to Image1.Width-1 do
-             S[x,y] := E[x,y];
-
   for y:=1 to Image1.Height-2 do
      for x:= 1 to Image1.Width-2 do
        begin
-         filtro := round((1/9)*E[x-1,y-1] + (1/9)*E[x,y-1] + (1/9)*E[x+1,y-1]
-               + (1/9)*E[x-1,y] + (1/9)*E[x,y] + (1/9)*E[x+1,y]
-               + (1/9)*E[x-1,y+1] + (1/9)*E[x,y+1] + (1/9)*E[x+1,y+1]);   //????
-         S[x,y] := filtro;
+         filtro := E[x-1,y-1] + E[x,y-1] + E[x+1,y-1]
+
+         + E[x-1,y]   + E[x,y] + E[x+1,y]
+
+         + E[x-1,y+1] + E[x,y+1] + E[x+1,y+1];
+
+         S[x,y] := round( filtro/ 9);
+
+         Image2.Canvas.Pixels[x,y] := RGB(S[x,y],S[x,y],S[x,y]);
        end;
-
-  for y:=0 to Image1.Height-1 do
-      for x:=0 to Image1.Width-1 do
-          Image2.Canvas.Pixels[x,y] := RGB(S[x,y],S[x,y],S[x,y]);
-
-
 end;
 
 procedure TForm1.MenuItem12Click(Sender: TObject);   //equalização (jeito Professor)
 var
-  i, x, y, pixel, valorEq: integer;
-  freq, freqAcc : array[0..255] of byte;
+  i, x, y, pixel: integer;
+  freq, freqAcc, valorEq: array[0..255] of byte;
 begin
-     for y:=0 to Image1.Height-1 do
-         for x:=0 to Image1.Width-1 do
-             S[x,y] := E[x,y];
-
      for i:=0 to 255 do
          freq[i] := 0;
+
      for y:=0 to Image1.Height-1 do
          for x:=0 to Image1.width-1 do
              begin
                pixel := E[x,y];
                freq[pixel] := freq[pixel] + 1;  //montando o vetor de frequências de cada tom de cinza
              end;
+
      freqAcc[0] := freq[0];
      for i:=1 to 255 do
-         begin
-            freqAcc[i] := freq[i] + freq[i-1]; //montando o vetor de frequência acumulada
-            valorEq := round((255*freqAcc[i])/(Image1.Width*Image1.Height))-1;
-            if (valorEq > 0) then
-                 begin
-                  for y:=0 to Image1.Height-1 do
-                      for x:=0 to Image1.Width-1 do
-                          pixel := S[x,y];
-                          if pixel = i then
-                             S[x,y] := valorEq;
-                 end
-              else
-                  begin
-                    for y:=0 to Image1.Height-1 do
-                        for x:=0 to Image1.Width-1 do
-                            pixel := S[x,y];
-                            if(pixel = i) then
-                               S[x,y] := 0;
-                 end;
-         end;
+         freqAcc[i] := freq[i] + freqAcc[i-1]; //montando o vetor de frequência acumulada
+
+     for i:=0 to 255 do
+         valorEq := round((255*freqAcc[i])/(Image1.Width*Image1.Height))-1;    //montando vetor de valores equalizados
 
      for y:=0 to Image1.Height-1 do
          for x:=0 to Image1.Width-1 do
-             Image2.Canvas.Pixels[x,y] := RGB(S[x,y],S[x,y],S[x,y]);
-
+             begin
+               pixel := E[x,y];  //todos os pixels dessa tonalidade devem ser substituídos pelo valor valorEq[pixel] se for maior que 0
+               if(valorEq[pixel] > 0) then
+                  S[x,y] := valorEq[pixel]
+               else
+                 S[x,y] := 0;
+               Image2.Canvas.Pixels[x,y] := RGB(S[x,y],S[x,y],S[x,y]);
+             end;
 end;
 
 procedure TForm1.MenuItem13Click(Sender: TObject);   //binarização
-var                                                 //usuário escolhe um limiar
+var
    x,y,a : integer;
 
 begin
-   a := StrToInt(Edit9.Text);
+   a := StrToInt(Edit9.Text);         //usuário escolhe um limiar
 
    for y:=0 to Image1.Height-1 do
          for x:=0 to Image1.Width-1 do
@@ -198,12 +181,8 @@ begin
                 S[x,y] := 255
              else
                S[x,y] := 0;
+             Image2.Canvas.Pixels[x,y] := RGB(S[x,y],S[x,y],S[x,y]);
            end;
-
-   for y:=0 to Image1.Height-1 do
-       for x:=0 to Image1.Width-1 do
-           Image2.Canvas.Pixels[x,y] := RGB(S[x,y],S[x,y],S[x,y]);
-
 end;
 
 procedure TForm1.MenuItem15Click(Sender: TObject); //detecção de bordas por Sobel
@@ -246,11 +225,11 @@ begin
 end;
 
 procedure TForm1.MenuItem17Click(Sender: TObject);    //limiarização
-var                                                   //a função será aplicada no intervalo que o usuário escolher
+var
    x,y,a,b,c : integer;
 
 begin
-   a := StrToInt(Edit6.Text);
+   a := StrToInt(Edit6.Text);            //a função (valor fixo) será aplicada no intervalo que o usuário escolher
    b := StrToInt(Edit7.Text);
    c := StrToInt(Edit8.Text);
 
@@ -262,9 +241,6 @@ begin
        for x:=0 to Image1.Width-1 do
            if(E[x,y] > a) AND (E[x,y] < b) then
               S[x,y] := c;
-
-   for y:=0 to Image1.Height-1 do
-       for x:=0 to Image1.Width-1 do
            Image2.Canvas.Pixels[x,y] := RGB(S[x,y],S[x,y],S[x,y]);
 end;
 
@@ -316,7 +292,6 @@ var
   x, y : integer;
   invertido : byte;
 begin
-
     for y:=0 to Image1.Height-1 do
          for x:=0 to Image1.Width-1 do
              S[x,y] := E[x,y];
@@ -326,11 +301,8 @@ begin
              begin
                invertido := 255 - E[x,y];
                S[x,y] := RGB(invertido, invertido, invertido);
+               Image2.Canvas.Pixels[x,y] := RGB(S[x,y],S[x,y],S[x,y]);
              end;
-
-     for y:=0 to Image2.Height-1 do
-         for x:=0 to Image2.Width-1 do
-             Image2.Canvas.Pixels[x,y] := RGB(S[x,y],S[x,y],S[x,y]);
 end;
 
 procedure TForm1.MenuItem19Click(Sender: TObject);    //transformada discreta do cosseno
@@ -384,8 +356,8 @@ begin
                 G := getGvalue(cor);
                 B := getBValue(cor);
                 cinza := round(0.299*R + 0.587*G + 0.144*B);
-                S[x,y] := cinza;   //se converto assim fica tudo branco
-                Image2.Canvas.Pixels[x,y] := S[x,y];
+                E[x,y] := cinza;   //se converto assim fica tudo branco
+                Image1.Canvas.Pixels[x,y] := RGB(cinza,cinza,cinza);
               end;
 end;
 
@@ -424,10 +396,8 @@ begin
              else
                ruido := 255;
              S[x,y] := ruido;
+             Image2.Canvas.Pixels[x,y] := RGB(S[x,y],S[x,y],S[x,y]);
           end;
-  for y:=0 to Image1.Height-1 do
-      for x:=0 to Image1.Width-1 do
-          Image2.Canvas.Pixels[x,y] := RGB(S[x,y],S[x,y],S[x,y]);
 end;
 
 procedure TForm1.MenuItem9Click(Sender: TObject);
